@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path'
 
 export default defineConfig({
   build: {
@@ -11,9 +12,14 @@ export default defineConfig({
       fileName: 'galaxy',
     },
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+      },
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: [],
+      external: [
+        '/site'
+      ],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps

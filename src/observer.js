@@ -1,79 +1,86 @@
 import { def_prop } from './utils';
 
-Observer.notify = function (obj, key, value) {
-  const observers = obj.__observers__;
+class Observer {
+  /**
+   * Create an Observer.
+   * @param {Object} context - The context to observe.
+   */
+  constructor(context) {
+    this.context = context;
+    this.subjectsActions = {};
+    this.allSubjectAction = [];
 
-  if (observers !== undefined) {
-    observers.forEach(function (observer) {
-      observer.notify(key, value);
-    });
-  }
-};
+    const __observers__ = '__observers__';
+    if (!this.context.hasOwnProperty(__observers__)) {
+      def_prop(context, __observers__, {
+        value: [],
+        writable: true,
+        configurable: true
+      });
+    }
 
-/**
- *
- * @param {Object} context
- * @constructor
- * @memberOf Galaxy
- */
-function Observer(context) {
-  this.context = context;
-  this.subjectsActions = {};
-  this.allSubjectAction = [];
-
-  const __observers__ = '__observers__';
-  if (!this.context.hasOwnProperty(__observers__)) {
-    def_prop(context, __observers__, {
-      value: [],
-      writable: true,
-      configurable: true
-    });
+    this.context[__observers__].push(this);
   }
 
-  this.context[__observers__].push(this);
-}
-
-Observer.prototype = {
-  remove: function () {
+  /**
+   * Remove the observer from the context.
+   */
+  remove() {
     const observers = this.context.__observers__;
     const index = observers.indexOf(this);
     if (index !== -1) {
       observers.splice(index, 1);
     }
-  },
-  /**
-   *
-   * @param {string} key
-   * @param value
-   */
-  notify: function (key, value) {
-    const _this = this;
+  }
 
-    if (_this.subjectsActions.hasOwnProperty(key)) {
-      _this.subjectsActions[key].call(_this.context, value);
+  /**
+   * Notify the observer of a change.
+   * @param {string} key - The key that changed.
+   * @param {*} value - The new value.
+   */
+  notify(key, value) {
+    if (this.subjectsActions.hasOwnProperty(key)) {
+      this.subjectsActions[key].call(this.context, value);
     }
 
-    _this.allSubjectAction.forEach(function (action) {
-      action.call(_this.context, key, value);
+    this.allSubjectAction.forEach(action => {
+      action.call(this.context, key, value);
     });
-  },
+  }
+
   /**
-   *
-   * @param subject
-   * @param action
+   * Register an action for a specific subject.
+   * @param {string} subject - The subject to observe.
+   * @param {Function} action - The action to perform.
    */
-  on: function (subject, action) {
+  on(subject, action) {
     this.subjectsActions[subject] = action;
-  },
+  }
+
   /**
-   *
-   * @param {Function} action
+   * Register an action for all subjects.
+   * @param {Function} action - The action to perform.
    */
-  onAll: function (action) {
+  onAll(action) {
     if (this.allSubjectAction.indexOf(action) === -1) {
       this.allSubjectAction.push(action);
     }
   }
-};
+
+  /**
+   * Notify all observers of a change.
+   * @param {Object} obj - The object being observed.
+   * @param {string} key - The key that changed.
+   * @param {*} value - The new value.
+   */
+  static notify(obj, key, value) {
+    const observers = obj.__observers__;
+    if (observers !== undefined) {
+      observers.forEach(observer => {
+        observer.notify(key, value);
+      });
+    }
+  }
+}
 
 export default Observer;

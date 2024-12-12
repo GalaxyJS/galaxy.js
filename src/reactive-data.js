@@ -177,6 +177,10 @@ function ReactiveData(id, data, p) {
   this.keyInParent = id;
   this.nodesMap = Object.create(null);
   this.parent = parent;
+  /**
+   *
+   * @type {ReactiveData[]}
+   */
   this.refs = [];
   this.shadow = Object.create(null);
   this.nodeCount = -1;
@@ -311,6 +315,7 @@ ReactiveData.prototype = {
   },
 
   walkOnScope: function (scope) {
+    // console.log('walkOnScope', scope);
     // this.makeReactiveObject(scope, 'data');
   },
   /**
@@ -360,7 +365,7 @@ ReactiveData.prototype = {
           }
         }
 
-        thisRD.notify(key, value);
+        thisRD.notify(key, value, null, false);
       },
       enumerable: !shadow,
       configurable: true
@@ -462,7 +467,7 @@ ReactiveData.prototype = {
         continue;
       }
 
-      ref.notify(key, value, this.refs);
+      ref.notify(key, value, this.refs, false);
     }
   },
   /**
