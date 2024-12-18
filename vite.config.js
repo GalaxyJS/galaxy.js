@@ -12,9 +12,9 @@ export default defineConfig({
       fileName: 'galaxy',
     },
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-      },
+      // input: {
+      //   main: resolve(__dirname, 'index.html'),
+      // },
       // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: [
