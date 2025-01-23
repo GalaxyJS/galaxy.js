@@ -44,7 +44,7 @@ export function create_comment(t) {
 /**
  *
  * @param {string} tagName
- * @param {Galaxy.ViewNode} parentViewNode
+ * @param {ViewNode} parentViewNode
  * @returns {HTMLElement|Comment}
  */
 export function create_elem(tagName, parentViewNode) {

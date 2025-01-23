@@ -166,9 +166,8 @@ NodeMap.prototype.push = function (nodeKey, node, bindType) {
 /**
  * @param {string|number|null} id
  * @param {Object} data
- * @param {Galaxy.View.ReactiveData} p
+ * @param {ReactiveData} p
  * @constructor
- * @memberOf Galaxy.View
  */
 function ReactiveData(id, data, p) {
   const parent = p instanceof ReactiveData ? p : scope_builder(p);

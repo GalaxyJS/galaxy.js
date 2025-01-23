@@ -317,7 +317,6 @@ function update_dom_manipulation_order() {
  *
  * @param {string} index
  * @param {Function} action
- * @memberOf Galaxy.View
  * @static
  */
 export function destroy_in_next_frame(index, action) {
@@ -330,7 +329,6 @@ export function destroy_in_next_frame(index, action) {
  *
  * @param {string} index
  * @param {Function} action
- * @memberOf Galaxy.View
  * @static
  */
 export function create_in_next_frame(index, action) {
@@ -341,9 +339,8 @@ export function create_in_next_frame(index, action) {
 
 /**
  *
- * @param {Array<Galaxy.ViewNode>} toBeRemoved
+ * @param {Array<ViewNode>} toBeRemoved
  * @param {boolean} hasAnimation
- * @memberOf Galaxy.View
  * @static
  */
 export function destroy_nodes(toBeRemoved, hasAnimation) {
@@ -357,7 +354,7 @@ export function destroy_nodes(toBeRemoved, hasAnimation) {
 
 /**
  *
- * @param {Galaxy.ViewNode} viewNode
+ * @param {ViewNode} viewNode
  * @param value
  * @param name
  */
@@ -474,7 +471,7 @@ export function property_lookup(data, key) {
  *
  * @param data
  * @param absoluteKey
- * @returns {Galaxy.View.ReactiveData}
+ * @returns {ReactiveData}
  */
 export function property_rd_lookup(data, absoluteKey) {
   const keys = absoluteKey.split('.');
@@ -578,12 +575,12 @@ export function get_expression_fn(bindings, target, scope) {
 
 /**
  *
- * @param {Galaxy.ViewNode | Object} target
+ * @param {ViewNode | Object} target
  * @param {String} targetKeyName
- * @param {Galaxy.View.ReactiveData} hostReactiveData
- * @param {Galaxy.View.ReactiveData} scopeData
+ * @param {ReactiveData} hostReactiveData
+ * @param {ReactiveData} scopeData
  * @param {Object} bindings
- * @param {Galaxy.ViewNode | undefined} root
+ * @param {ViewNode | undefined} root
  */
 export function make_binding(target, targetKeyName, hostReactiveData, scopeData, bindings, root) {
   const propertyKeys = bindings.propertyKeys;
@@ -761,7 +758,7 @@ export function bind_subjects_to_data(viewNode, subjects, data, cloneSubject) {
 
 /**
  *
- * @param {Galaxy.ViewNode} node
+ * @param {ViewNode} node
  * @param scopeData
  * @param {string} key
  * @param {any} value
@@ -789,13 +786,13 @@ export function install_property_for_node(node, scopeData, key, value) {
  *
  * @param viewNode
  * @param {string} propertyKey
- * @param {Galaxy.View.ReactiveData} scopeProperty
+ * @param {ReactiveData} scopeProperty
  * @param expression
  */
 export function activate_property_for_node(viewNode, propertyKey, scopeProperty, expression) {
   /**
    *
-   * @type {Galaxy.View.BlueprintProperty}
+   * @type {BlueprintProperty}
    */
   const property = NODE_BLUEPRINT_PROPERTY_MAP[propertyKey] || { type: 'attr' };
   property.key = property.key || propertyKey;
@@ -808,11 +805,11 @@ export function activate_property_for_node(viewNode, propertyKey, scopeProperty,
 
 /**
  *
- * @param {Galaxy.View.BlueprintProperty} blueprintProperty
- * @param {Galaxy.ViewNode} viewNode
+ * @param {BlueprintProperty} blueprintProperty
+ * @param {ViewNode} viewNode
  * @param [scopeProperty]
  * @param {Function} [expression]
- * @returns {Galaxy.View.EMPTY_CALL|(function())}
+ * @returns {EMPTY_CALL|(function())}
  */
 export function get_property_setter_for_node(blueprintProperty, viewNode, scopeProperty, expression) {
   // if viewNode is virtual, then the expression should be ignored
@@ -830,7 +827,7 @@ export function get_property_setter_for_node(blueprintProperty, viewNode, scopeP
 
 /**
  *
- * @param {Galaxy.ViewNode} viewNode
+ * @param {ViewNode} viewNode
  * @param {string} propertyKey
  * @param {*} value
  */
@@ -867,9 +864,8 @@ View.COMPONENTS = {};
 
 /**
  *
- * @param {Galaxy.Scope} scope
+ * @param {Scope} scope
  * @constructor
- * @memberOf Galaxy
  */
 function View(scope) {
   const _this = this;
@@ -987,7 +983,7 @@ View.prototype = {
    *
    * @param {string} key
    * @param blueprint
-   * @param {Galaxy.Scope|Object} scopeData
+   * @param {Scope|Object} scopeData
    * @returns {*}
    */
   getComponent: function (key, blueprint, scopeData) {
@@ -1034,7 +1030,7 @@ View.prototype = {
   /**
    *
    * @param {Blueprint|Blueprint[]} blueprint
-   * @return {Galaxy.ViewNode|Array<Galaxy.ViewNode>}
+   * @return {ViewNode|Array<ViewNode>}
    */
   blueprint: function (blueprint) {
     const _this = this;
@@ -1054,9 +1050,9 @@ View.prototype = {
    *
    * @param {Object} blueprint
    * @param {Object} scopeData
-   * @param {Galaxy.ViewNode} parent
+   * @param {ViewNode} parent
    * @param {Node|Element|null} position
-   * @return {Galaxy.ViewNode|Array<Galaxy.ViewNode>}
+   * @return {ViewNode|Array<ViewNode>}
    */
   createNode: function (blueprint, scopeData, parent, position) {
     const _this = this;

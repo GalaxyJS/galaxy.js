@@ -25,7 +25,7 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/galaxy.cjs",
+  "main": "./dist/galaxy.umd.cjs",
   "module": "./dist/galaxy.js",
   "exports": {
     ".": {

@@ -18,9 +18,9 @@ export function convertToURIString(obj, prefix) {
 
 /**
  *
- * @param {Galaxy} galaxy
- * @param {Galaxy.ModuleMetaData} moduleMetaData
- * @returns {Galaxy.Module}
+ * @param {any} galaxy
+ * @param {ModuleMetaData} moduleMetaData
+ * @returns {Module}
  */
 export function createModule(galaxy, moduleMetaData) {
   const scope = new Scope(galaxy, moduleMetaData, moduleMetaData.element || this.rootElement);
@@ -29,7 +29,7 @@ export function createModule(galaxy, moduleMetaData) {
 
 /**
  *
- * @param {Galaxy.Module}  module
+ * @param {Module}  module
  * @return {Promise<any>}
  */
 export function executeCompiledModule(module) {
@@ -68,16 +68,14 @@ export function executeCompiledModule(module) {
 
 /**
  *
- * @memberOf Galaxy.Scope
- * @returns {Galaxy.View}
+ * @returns {View}
  */
 Scope.prototype.useView = function () {
   return new View(this);
 }
 
 /**
- * @memberOf Galaxy.Scope
- * @returns {Galaxy.Router}
+ * @returns {Router}
  */
 Scope.prototype.useRouter = function () {
   const router = new Router(this);

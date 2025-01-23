@@ -1,6 +1,6 @@
 /**
  *
- * @typedef {Object} Galaxy.View.BlueprintProperty
+ * @typedef {Object} View.BlueprintProperty
  * @property {string} [key]
  * @property {'attr'|'prop'|'reactive'|'event'|'none'} [type]
  * @property {Function} [getConfig]
@@ -11,7 +11,7 @@
  */
 /**
  *
- * @type {{[property: string]: Galaxy.View.BlueprintProperty}}
+ * @type {{[property: string]: View.BlueprintProperty}}
  */
 export const NODE_BLUEPRINT_PROPERTY_MAP = {
   tag: {

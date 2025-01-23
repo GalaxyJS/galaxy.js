@@ -132,7 +132,6 @@ ViewNode.GLOBAL_RENDER_CONFIG = {
 /**
  *
  * @param blueprints
- * @memberOf Galaxy.ViewNode
  * @static
  */
 ViewNode.cleanReferenceNode = function (blueprints) {
@@ -162,7 +161,6 @@ ViewNode.createIndex = function (i) {
 
 /**
  * @typedef {Object} Blueprint
- * @memberOf Galaxy
  * @property {RenderConfig} [renderConfig]
  * @property {string|Node} [tag]
  * @property {function} [_create]
@@ -173,11 +171,10 @@ ViewNode.createIndex = function (i) {
 /**
  *
  * @param {Blueprint} blueprint
- * @param {Galaxy.ViewNode|null} parent
- * @param {Galaxy.View} view
+ * @param {ViewNode|null} parent
+ * @param {View} view
  * @param {any} [nodeData]
  * @constructor
- * @memberOf Galaxy
  */
 function ViewNode(blueprint, parent, view, nodeData) {
   const _this = this;
@@ -418,7 +415,7 @@ ViewNode.prototype = {
 
   /**
    *
-   * @param {Galaxy.ViewNode} childNode
+   * @param {ViewNode} childNode
    * @param position
    */
   registerChild: function (childNode, position) {

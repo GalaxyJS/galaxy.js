@@ -1,17 +1,21 @@
 /**
  *
- * @typedef {Object} Galaxy.ModuleMetaData
+ * @typedef {Object} ModuleMetaData
  * @property {Function} [constructor]
  * @property {Function|string} [source]
  * @property {string} [id]
  * @property {string} [systemId]
  * @property {string} [path]
- * @property {Galaxy.Scope} [parentScope]
+ * @property {Scope} [parentScope]
  * @property {Node} [element]
  */
 
 import { createModule, executeCompiledModule } from './src/core.js';
 import { setupTimeline } from './src/properties/animations.property.js';
+import Scope from './src/scope.js';
+import Router from './src/router.js';
+import Module from './src/module.js';
+import View from './src/view.js';
 
 Array.prototype.unique = function () {
   const a = this.concat();
@@ -66,7 +70,7 @@ const Galaxy = {
 
   /**
    *
-   * @param {Galaxy.ModuleMetaData} moduleMeta
+   * @param {ModuleMetaData} moduleMeta
    * @return {Promise<any>}
    */
   load: function (moduleMeta) {
@@ -117,7 +121,7 @@ const Galaxy = {
 
 /**
  *
- * @param {Galaxy.ModuleMetaData} bootModule
+ * @param {ModuleMetaData} bootModule
  * @return {Promise<any>}
  */
 function boot(bootModule) {
@@ -143,6 +147,7 @@ function boot(bootModule) {
 
 export {
   boot,
-  setupTimeline
+  setupTimeline,
+  Scope, Router, Module, View
 };
 

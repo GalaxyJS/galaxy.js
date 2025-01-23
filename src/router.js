@@ -1,5 +1,6 @@
 import { EMPTY_CALL } from './utils.js';
 import { create_in_next_frame, max_index } from './view.js';
+import Scope from './scope.js';
 
 function prepare_route(routeConfig, parentScopeRouter, fullPath) {
   if (routeConfig instanceof Array) {
@@ -70,9 +71,8 @@ window.addEventListener('popstate', Router.mainListener);
 
 /**
  *
- * @param {Galaxy.Scope} scope
+ * @param {Scope} scope
  * @constructor
- * @memberOf Galaxy
  */
 function Router(scope) {
   const _this = this;
@@ -173,6 +173,10 @@ Router.prototype = {
     this.detect();
   },
 
+  /**
+   *
+   * @param {string} title
+   */
   setTitle(title) {
     this.title = title;
   },

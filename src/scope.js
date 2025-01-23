@@ -2,14 +2,12 @@ import { def_prop, del_prop } from './utils';
 import GalaxyURI from './uri.js';
 import Observer from './observer.js';
 import { bind_subjects_to_data } from './view.js';
-
 /**
  *
- * @param {Galaxy} context
+ * @param {any} context
  * @param {Object} module
  * @param [element]
  * @constructor
- * @memberOf Galaxy
  */
 function Scope(context, module, element) {
   const _this = this;
@@ -75,7 +73,7 @@ Scope.prototype = {
   },
   /**
    *
-   * @param {Galaxy.ModuleMetaData} moduleMeta
+   * @param {ModuleMetaData} moduleMeta
    * @param {*} config
    * @returns {*}
    */
@@ -120,7 +118,7 @@ Scope.prototype = {
   /**
    *
    * @param {string} event
-   * @param {*} data
+   * @param {*} [data]
    */
   trigger: function (event, data) {
     if (this.eventHandlers[event]) {
@@ -132,7 +130,7 @@ Scope.prototype = {
   /**
    *
    * @param object
-   * @returns {Galaxy.Observer}
+   * @returns {Observer}
    */
   observe: function (object) {
     const observer = new Observer(object);

@@ -1,9 +1,10 @@
+import Scope from './scope';
+
 /**
  *
  * @param {object} module
- * @param {Galaxy.Scope} scope
+ * @param {Scope} scope
  * @constructor
- * @memberOf Galaxy
  */
 function Module(module, scope) {
   this.id = module.id;
