@@ -2,7 +2,7 @@ import { set_attr } from '../view.js';
 
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export const disabled_property = {
   type: 'attr',

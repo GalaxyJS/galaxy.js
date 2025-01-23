@@ -2,15 +2,15 @@ import { get_bindings } from '../view.js';
 
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export const checked_property = {
   type: 'prop',
   key: 'checked',
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
-   * @param {Galaxy.View.ReactiveData} scopeReactiveData
+   * @param {ViewNode} viewNode
+   * @param {ReactiveData} scopeReactiveData
    * @param prop
    * @param {Function} expression
    */

@@ -20,7 +20,7 @@ export const module_property = {
   /**
    *
    * @param cache
-   * @param {Galaxy.ModuleMetaData} newModuleMeta
+   * @param {ModuleMetaData} newModuleMeta
    * @param expression
    */
   update: function handleModule(cache, newModuleMeta, expression) {
@@ -67,7 +67,7 @@ export const module_property = {
 
 /**
  *
- * @param {Galaxy.ViewNode} viewNode
+ * @param {ViewNode} viewNode
  */
 function clean_content(viewNode) {
   const children = viewNode.getChildNodes();

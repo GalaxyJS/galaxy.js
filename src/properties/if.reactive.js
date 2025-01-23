@@ -1,6 +1,6 @@
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export const if_property = {
   type: 'reactive',
@@ -15,7 +15,7 @@ export const if_property = {
   },
   /**
    *
-   * @this Galaxy.ViewNode
+   * @this ViewNode
    * @param config
    * @param value
    * @param expression

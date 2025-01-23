@@ -20,7 +20,7 @@ function apply_node_dataset(node, value) {
 
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export const data_property = {
   type: 'reactive',

@@ -3,7 +3,7 @@ import { EMPTY_CALL } from '../utils.js';
 
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export let animations_property;
 export let setupTimeline;
@@ -15,7 +15,7 @@ if (!window.gsap) {
     key: 'animations',
     /**
      *
-     * @param {Galaxy.ViewNode} viewNode
+     * @param {ViewNode} viewNode
      * @param animationDescriptions
      */
     update: function (viewNode, animationDescriptions) {
@@ -92,7 +92,7 @@ if (!window.gsap) {
     key: 'animations',
     /**
      *
-     * @param {Galaxy.ViewNode} viewNode
+     * @param {ViewNode} viewNode
      * @param animations
      */
     update: function (viewNode, animations) {
@@ -207,7 +207,7 @@ if (!window.gsap) {
 
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
+   * @param {ViewNode} viewNode
    * @param {AnimationConfig} animationConfig
    * @returns {*}
    */
@@ -245,7 +245,7 @@ if (!window.gsap) {
 
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
+   * @param {ViewNode} viewNode
    * @param {AnimationConfig} animationConfig
    * @param {Function} [finalize]
    */
@@ -288,7 +288,7 @@ if (!window.gsap) {
 
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
+   * @param {ViewNode} viewNode
    * @param {Object} viewNodeCache
    * @param {string} tweenKey
    * @param {AnimationConfig} animationConfig
@@ -445,7 +445,7 @@ if (!window.gsap) {
 
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
+   * @param {ViewNode} viewNode
    * @param {'enter'|'leave'|null} type
    * @param {AnimationConfig} descriptions
    * @param {Function} [finalize]

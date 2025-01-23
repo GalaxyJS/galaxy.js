@@ -3,7 +3,7 @@ import Observer from '../observer.js';
 
 /**
  *
- * @type {Galaxy.View.BlueprintProperty}
+ * @type {BlueprintProperty}
  */
 export const class_property = {
   type: 'reactive',
@@ -54,7 +54,7 @@ export const class_property = {
    * @param config
    * @param value
    * @param expression
-   * @this Galaxy.ViewNode
+   * @this ViewNode
    */
   update: function (config, value, expression) {
     if (this.virtual) {

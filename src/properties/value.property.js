@@ -1,42 +1,43 @@
-import { get_bindings } from '../view.js';
+import { get_bindings } from "../view.js";
 
-const IGNORE_TYPES = [
-  'radio',
-  'checkbox',
-  'button',
-  'reset',
-  'submit'
-];
+const IGNORE_TYPES = ["radio", "checkbox", "button", "reset", "submit"];
 
 export const value_config_property = {
-  type: 'none'
+  type: "none",
 };
 
 export const value_property = {
-  type: 'prop',
-  key: 'value',
+  type: "prop",
+  key: "value",
   /**
    *
-   * @param {Galaxy.ViewNode} viewNode
-   * @param {Galaxy.View.ReactiveData} scopeReactiveData
+   * @param {ViewNode} viewNode
+   * @param {ReactiveData} scopeReactiveData
    * @param prop
    * @param {Function} expression
    */
-  beforeActivate: function valueUtil(viewNode, scopeReactiveData, prop, expression) {
+  beforeActivate: function valueUtil(
+    viewNode,
+    scopeReactiveData,
+    prop,
+    expression
+  ) {
     const nativeNode = viewNode.node;
     if (!scopeReactiveData || IGNORE_TYPES.indexOf(nativeNode.type) !== -1) {
       return;
     }
 
     if (expression) {
-      throw new Error('input.value property does not support binding expressions ' +
-        'because it must be able to change its data.\n' +
-        'It uses its bound value as its `model` and expressions can not be used as model.\n');
+      throw new Error(
+        "input.value property does not support binding expressions " +
+          "because it must be able to change its data.\n" +
+          "It uses its bound value as its `model` and expressions can not be used as model.\n"
+      );
     }
 
     const bindings = get_bindings(viewNode.blueprint.value);
-    const id = bindings.propertyKeys[0].split('.').pop();
-    if (nativeNode.tagName === 'SELECT') {
+    const id = bindings.propertyKeys[0].split(".").pop();
+    if (nativeNode.tagName === "SELECT") {
       const observer = new MutationObserver(() => {
         viewNode.rendered.then(() => {
           // Set the value after the children are rendered
@@ -47,20 +48,29 @@ export const value_property = {
       viewNode.finalize.push(() => {
         observer.disconnect();
       });
-      nativeNode.addEventListener('change', createHandler(scopeReactiveData, id));
-    } else if (nativeNode.type === 'number' || nativeNode.type === 'range') {
-      nativeNode.addEventListener('input', createNumberHandler(nativeNode, scopeReactiveData, id));
+      nativeNode.addEventListener(
+        "change",
+        createHandler(scopeReactiveData, id)
+      );
+    } else if (nativeNode.type === "number" || nativeNode.type === "range") {
+      nativeNode.addEventListener(
+        "input",
+        createNumberHandler(nativeNode, scopeReactiveData, id)
+      );
     } else {
-      nativeNode.addEventListener('input', createHandler(scopeReactiveData, id));
+      nativeNode.addEventListener(
+        "input",
+        createHandler(scopeReactiveData, id)
+      );
     }
   },
   update: function (viewNode, value) {
     // input field parse the value which has been passed to it into a string
     // that's why we need to parse undefined and null into an empty string
     if (value !== viewNode.node.value || !viewNode.node.value) {
-      viewNode.node.value = value === undefined || value === null ? '' : value;
+      viewNode.node.value = value === undefined || value === null ? "" : value;
     }
-  }
+  },
 };
 
 function createNumberHandler(_node, _rd, _id) {
@@ -74,4 +84,3 @@ function createHandler(_rd, _id) {
     _rd.data[_id] = event.target.value;
   };
 }
-
