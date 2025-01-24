@@ -107,8 +107,8 @@ function module_loader(viewNode, cache, moduleMeta, _next) {
     // In the case where module is a part of repeat, cache.scope will NOT be an instance of Scope
     // but its __parent__ will be
     if (!(currentScope instanceof Scope)) {
-      currentScope = new Scope(cache.scope.__parent__.context, {
-        systemId: 'repeat-item',
+      currentScope = new Scope({
+        id: 'repeat-item',
         path: cache.scope.__parent__.uri.parsedURL,
         parentScope: cache.scope.__parent__
       });

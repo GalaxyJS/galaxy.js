@@ -137,7 +137,7 @@ function Router(scope) {
     enumerable: true
   });
 
-  if (scope.systemId === '@root') {
+  if (scope.moduleId === '@root') {
     Router.currentPath.update();
   }
 }

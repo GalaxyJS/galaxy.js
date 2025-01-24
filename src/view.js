@@ -1,26 +1,26 @@
-import { arr_concat, clone, def_prop, EMPTY_CALL, obj_keys } from './utils.js';
-import Scope from './scope.js';
-import ViewNode from './view-node.js';
-import ArrayChange from './array-change.js';
-import { NODE_BLUEPRINT_PROPERTY_MAP, VALID_TAG_NAMES } from './constants.js';
-import prop_setter from './setters/prop.js';
-import attr_setter from './setters/attr.js';
-import reactive_setter from './setters/reactive.js';
-import { text_property, text_3_property, text_8_property } from './properties/text.property.js';
-import { data_property } from './properties/data.reactive.js';
-import { animations_property } from './properties/animations.property.js';
-import { checked_property } from './properties/checked.property.js';
-import { class_property } from './properties/class.reactive.js';
-import { disabled_property } from './properties/disabled.property.js';
-import { if_property } from './properties/if.reactive.js';
-import { module_property } from './properties/module.reactive.js';
-import { on_property } from './properties/on.property.js';
-import { repeat_property } from './properties/repeat.reactive.js';
-import { selected_property } from './properties/selected.property.js';
-import { style_3_property, style_8_property, style_property } from './properties/style.reactive.js';
-import { value_config_property, value_property } from './properties/value.property.js';
-import { visible_property } from './properties/visible.reactive.js';
-import ReactiveData from './reactive-data.js';
+import { arr_concat, clone, def_prop, EMPTY_CALL, obj_keys } from "./utils.js";
+import Scope from "./scope.js";
+import ViewNode from "./view-node.js";
+import ArrayChange from "./array-change.js";
+import { NODE_BLUEPRINT_PROPERTY_MAP, VALID_TAG_NAMES } from "./constants.js";
+import prop_setter from "./setters/prop.js";
+import attr_setter from "./setters/attr.js";
+import reactive_setter from "./setters/reactive.js";
+import { text_property, text_3_property, text_8_property } from "./properties/text.property.js";
+import { data_property } from "./properties/data.reactive.js";
+import { animations_property } from "./properties/animations.property.js";
+import { checked_property } from "./properties/checked.property.js";
+import { class_property } from "./properties/class.reactive.js";
+import { disabled_property } from "./properties/disabled.property.js";
+import { if_property } from "./properties/if.reactive.js";
+import { module_property } from "./properties/module.reactive.js";
+import { on_property } from "./properties/on.property.js";
+import { repeat_property } from "./properties/repeat.reactive.js";
+import { selected_property } from "./properties/selected.property.js";
+import { style_3_property, style_8_property, style_property } from "./properties/style.reactive.js";
+import { value_config_property, value_property } from "./properties/value.property.js";
+import { visible_property } from "./properties/visible.reactive.js";
+import ReactiveData from "./reactive-data.js";
 
 const ARG_BINDING_SINGLE_QUOTE_RE = /=\s*'<([^\[\]<>]*)>(.*)'/m;
 const ARG_BINDING_DOUBLE_QUOTE_RE = /=\s*'=\s*"<([^\[\]<>]*)>(.*)"/m;
@@ -31,22 +31,22 @@ const PROPERTY_NAME_SPLITTER_RE = /\.|\[([^\[\]\n]+)]|([^.\n\[\]]+)/g;
 const REACTIVE_BEHAVIORS = {};
 
 for (const key in NODE_BLUEPRINT_PROPERTY_MAP) {
-  if (NODE_BLUEPRINT_PROPERTY_MAP[key].type === 'reactive') {
+  if (NODE_BLUEPRINT_PROPERTY_MAP[key].type === "reactive") {
     REACTIVE_BEHAVIORS[key] = true;
   }
 }
 
 const PROPERTY_SETTERS = {
-  'none': function () {
+  "none": function() {
     return EMPTY_CALL;
   },
-  'prop': prop_setter,
-  'attr': attr_setter,
-  'reactive': reactive_setter
+  "prop": prop_setter,
+  "attr": attr_setter,
+  "reactive": reactive_setter,
 };
 
 export function max_index() {
-  return '@' + performance.now();
+  return "@" + performance.now();
 }
 
 // let opt_count = 0;
@@ -81,11 +81,11 @@ export function max_index() {
 
 function parse_bind_exp_string(propertyKey, clean) {
   const matches = propertyKey.match(PROPERTY_NAME_SPLITTER_RE);
-  const result = matches.filter(a => a !== '' && a !== '.');
+  const result = matches.filter(a => a !== "" && a !== ".");
 
   if (clean) {
     return result.map(p => {
-      if (p.indexOf('[') === 0) {
+      if (p.indexOf("[") === 0) {
         return p.substring(1, p.length - 1);
       }
       return p;
@@ -126,7 +126,7 @@ function safe_property_lookup(data, properties) {
 
   target = target || {};
   const lastIndex = propertiesArr.length - 1;
-  propertiesArr.forEach(function (key, i) {
+  propertiesArr.forEach(function(key, i) {
     target = target[key];
 
     if (i !== lastIndex && !(target instanceof Object)) {
@@ -147,7 +147,7 @@ let dom_manipulation_order = [];
 let manipulation_done = true, dom_manipulations_dirty = false;
 let diff = 0, preTS = 0, too_many_jumps;
 
-const next_action = function (_jump, dirty) {
+const next_action = function(_jump, dirty) {
   if (dirty) {
     return _jump();
   }
@@ -159,7 +159,7 @@ const next_action = function (_jump, dirty) {
   }
 };
 
-const next_batch_body = function () {
+const next_batch_body = function() {
   if (this.length) {
     let key = this.shift();
     let batch = dom_manipulation_table[key];
@@ -175,7 +175,7 @@ const next_batch_body = function () {
   }
 };
 
-const next_batch = function () {
+const next_batch = function() {
   if (dom_manipulations_dirty) {
     dom_manipulations_dirty = false;
     diff = 0;
@@ -321,7 +321,7 @@ function update_dom_manipulation_order() {
  */
 export function destroy_in_next_frame(index, action) {
   dom_manipulations_dirty = true;
-  add_dom_manipulation('<' + index, action, destroy_order, pos_desc);
+  add_dom_manipulation("<" + index, action, destroy_order, pos_desc);
   update_dom_manipulation_order();
 }
 
@@ -333,7 +333,7 @@ export function destroy_in_next_frame(index, action) {
  */
 export function create_in_next_frame(index, action) {
   dom_manipulations_dirty = true;
-  add_dom_manipulation('>' + index, action, create_order, pos_asc);
+  add_dom_manipulation(">" + index, action, create_order, pos_asc);
   update_dom_manipulation_order();
 }
 
@@ -360,7 +360,7 @@ export function destroy_nodes(toBeRemoved, hasAnimation) {
  */
 export function set_attr(viewNode, value, name) {
   if (value !== null && value !== undefined && value !== false) {
-    viewNode.node.setAttribute(name, value === true ? '' : value);
+    viewNode.node.setAttribute(name, value === true ? "" : value);
   } else {
     viewNode.node.removeAttribute(name);
   }
@@ -373,14 +373,14 @@ export function set_prop(viewNode, value, name) {
 export function create_child_scope(parent) {
   let result = {};
 
-  def_prop(result, '__parent__', {
+  def_prop(result, "__parent__", {
     enumerable: false,
-    value: parent
+    value: parent,
   });
 
-  def_prop(result, '__scope__', {
+  def_prop(result, "__scope__", {
     enumerable: false,
-    value: parent.__scope__ || parent
+    value: parent.__scope__ || parent,
   });
 
   return result;
@@ -399,25 +399,25 @@ export function get_bindings(value) {
   const valueType = typeof (value);
   let expressionFunction = null;
 
-  if (valueType === 'string') {
+  if (valueType === "string") {
     const props = value.match(BINDING_RE);
     if (props) {
       bindTypes = [props[1]];
       propertyKeys = [props[2]];
       propertyValues = [value];
     }
-  } else if (valueType === 'function') {
+  } else if (valueType === "function") {
     isExpression = true;
     expressionFunction = value;
     const matches = value.toString().match(FUNCTION_HEAD_RE);
     if (matches) {
       const args = matches[1] || matches [2];
-      propertyValues = args.split(',').map(a => {
-        const argDef = a.indexOf('"') === -1 ? a.match(ARG_BINDING_SINGLE_QUOTE_RE) : a.match(ARG_BINDING_DOUBLE_QUOTE_RE);
+      propertyValues = args.split(",").map(a => {
+        const argDef = a.indexOf("\"") === -1 ? a.match(ARG_BINDING_SINGLE_QUOTE_RE) : a.match(ARG_BINDING_DOUBLE_QUOTE_RE);
         if (argDef) {
           bindTypes.push(argDef[1]);
           propertyKeys.push(argDef[2]);
-          return '<>' + argDef[2];
+          return "<>" + argDef[2];
         } else {
           return undefined;
         }
@@ -431,7 +431,7 @@ export function get_bindings(value) {
     bindTypes: bindTypes,
     handler: expressionFunction,
     isExpression: isExpression,
-    expressionFn: null
+    expressionFn: null,
   };
 }
 
@@ -452,7 +452,7 @@ export function property_lookup(data, key) {
       }
 
       if (nestingLevel++ >= 1000) {
-        throw Error('Maximum nested property lookup has reached `' + firstKey + '`\n' + data);
+        throw Error("Maximum nested property lookup has reached `" + firstKey + "`\n" + data);
       }
 
       temp = parent;
@@ -474,10 +474,10 @@ export function property_lookup(data, key) {
  * @returns {ReactiveData}
  */
 export function property_rd_lookup(data, absoluteKey) {
-  const keys = absoluteKey.split('.');
+  const keys = absoluteKey.split(".");
   const li = keys.length - 1;
   let target = data;
-  keys.forEach(function (p, i) {
+  keys.forEach(function(p, i) {
     target = property_lookup(target, p);
 
     if (i !== li) {
@@ -502,23 +502,23 @@ export function create_args_provider_fn(propertyValues) {
     return EXPRESSION_ARGS_FUNC_CACHE[id];
   }
 
-  let functionContent = 'return [';
+  let functionContent = "return [";
   let middle = [];
   for (let i = 0, len = propertyValues.length; i < len; i++) {
     const val = propertyValues[i];
-    if (typeof val === 'string') {
-      if (val.indexOf('<>this.') === 0) {
-        middle.push('_prop(this.data, "' + val.replace('<>this.', '') + '")');
-      } else if (val.indexOf('<>') === 0) {
-        middle.push('_prop(scope, "' + val.replace('<>', '') + '")');
+    if (typeof val === "string") {
+      if (val.indexOf("<>this.") === 0) {
+        middle.push("_prop(this.data, \"" + val.replace("<>this.", "") + "\")");
+      } else if (val.indexOf("<>") === 0) {
+        middle.push("_prop(scope, \"" + val.replace("<>", "") + "\")");
       }
     } else {
-      middle.push('_var[' + i + ']');
+      middle.push("_var[" + i + "]");
     }
   }
-  functionContent += middle.join(',') + ']';
+  functionContent += middle.join(",") + "]";
 
-  const func = new Function('scope, _prop , _var', functionContent);
+  const func = new Function("scope, _prop , _var", functionContent);
   EXPRESSION_ARGS_FUNC_CACHE[id] = func;
 
   return func;
@@ -535,13 +535,13 @@ export function create_expression_fn(host, scope, handler, keys, values) {
 
   const getExpressionArguments = create_args_provider_fn(values);
 
-  return function () {
+  return function() {
     let args = [];
     try {
       args = getExpressionArguments.call(host, scope, safe_property_lookup, values);
     } catch (ex) {
-      console.error('Can\'t find the property: \n' + keys.join('\n'), '\n\nIt is recommended to inject the parent object instead' +
-        ' of its property.\n\n', scope, '\n', ex);
+      console.error("Can't find the property: \n" + keys.join("\n"), "\n\nIt is recommended to inject the parent object instead" +
+        " of its property.\n\n", scope, "\n", ex);
     }
 
     return handler.apply(host, args);
@@ -569,7 +569,7 @@ export function get_expression_fn(bindings, target, scope) {
     bindings.expressionFn = create_expression_fn(target, scope, bindings.handler, bindings.propertyKeys, bindings.propertyValues);
     return bindings.expressionFn;
   } catch (exception) {
-    throw Error(exception.message + '\n' + bindings.propertyKeys);
+    throw Error(exception.message + "\n" + bindings.propertyKeys);
   }
 }
 
@@ -601,31 +601,31 @@ export function make_binding(target, targetKeyName, hostReactiveData, scopeData,
 
     if (propertyKeyPathItems.length > 1) {
       propertyKey = propertyKeyPathItems[0];
-      childPropertyKeyPath = propertyKeyPathItems.slice(1).join('.');
+      childPropertyKeyPath = propertyKeyPathItems.slice(1).join(".");
     }
 
     if (!hostReactiveData && scopeData /*&& !(scopeData instanceof G.Scope)*/) {
-      if ('__rd__' in scopeData) {
+      if ("__rd__" in scopeData) {
         hostReactiveData = scopeData.__rd__;
       } else {
-        hostReactiveData = new ReactiveData(null, scopeData, scopeData instanceof Scope ? scopeData.systemId : 'child');
+        hostReactiveData = new ReactiveData(null, scopeData, scopeData instanceof Scope ? scopeData.moduleId : "child");
       }
     }
 
-    if (propertyKeyPathItems[0] === 'Scope') {
-      throw new Error('`Scope` keyword must be omitted when it is used  used in bindings: ' + propertyKeys.join('.'));
+    if (propertyKeyPathItems[0] === "Scope") {
+      throw new Error("`Scope` keyword must be omitted when it is used  used in bindings: " + propertyKeys.join("."));
     }
 
-    if (propertyKey.indexOf('[') === 0) {
+    if (propertyKey.indexOf("[") === 0) {
       propertyKey = propertyKey.substring(1, propertyKey.length - 1);
     }
 
     // If the property name is `this` and its index is zero, then it is pointing to the ViewNode.data property
-    if (propertyKeyPathItems[0] === 'this' && propertyKey === 'this' && root instanceof ViewNode) {
+    if (propertyKeyPathItems[0] === "this" && propertyKey === "this" && root instanceof ViewNode) {
       propertyKey = propertyKeyPathItems[1];
       bindings.propertyKeys = propertyKeyPathItems.slice(2);
       childPropertyKeyPath = null;
-      hostReactiveData = new ReactiveData('data', root.data, 'this');
+      hostReactiveData = new ReactiveData("data", root.data, "this");
       propertyScopeData = property_lookup(root.data, propertyKey);
     } else if (propertyScopeData) {
       // Look for the property host object in scopeData hierarchy
@@ -633,7 +633,7 @@ export function make_binding(target, targetKeyName, hostReactiveData, scopeData,
     }
 
     initValue = propertyScopeData;
-    if (propertyScopeData !== null && typeof propertyScopeData === 'object') {
+    if (propertyScopeData !== null && typeof propertyScopeData === "object") {
       initValue = propertyScopeData[propertyKey];
     }
 
@@ -644,7 +644,7 @@ export function make_binding(target, targetKeyName, hostReactiveData, scopeData,
       reactiveData = new ReactiveData(propertyKey, null, hostReactiveData);
     } else if (hostReactiveData) {
       // if the propertyKey is used for a repeat reactive property, then we assume its type is Array.
-      hostReactiveData.addKeyToShadow(propertyKey, targetKeyName === 'repeat');
+      hostReactiveData.addKeyToShadow(propertyKey, targetKeyName === "repeat");
     }
 
     if (childPropertyKeyPath === null) {
@@ -674,7 +674,7 @@ export function make_binding(target, targetKeyName, hostReactiveData, scopeData,
             return hostReactiveData.data[propertyKey];
           },
           enumerable: true,
-          configurable: true
+          configurable: true,
         });
       }
 
@@ -714,7 +714,7 @@ export function bind_subjects_to_data(viewNode, subjects, data, cloneSubject) {
 
   let parentReactiveData;
   if (!(data instanceof Scope)) {
-    parentReactiveData = new ReactiveData(null, data, 'BSTD');
+    parentReactiveData = new ReactiveData(null, data, "BSTD");
   }
 
   for (let i = 0, len = keys.length; i < len; i++) {
@@ -735,20 +735,20 @@ export function bind_subjects_to_data(viewNode, subjects, data, cloneSubject) {
     if (bindings.propertyKeys.length) {
       make_binding(subjectsClone, attributeName, parentReactiveData, data, bindings, viewNode);
       if (viewNode) {
-        bindings.propertyKeys.forEach(function (path) {
+        bindings.propertyKeys.forEach(function(path) {
           try {
             const rd = property_rd_lookup(data, path);
             viewNode.finalize.push(() => {
               rd.removeNode(subjectsClone);
             });
           } catch (error) {
-            console.error('bind_subjects_to_data -> Could not find: ' + path + '\n in', data, error);
+            console.error("bind_subjects_to_data -> Could not find: " + path + "\n in", data, error);
           }
         });
       }
     }
 
-    if (attributeValue && typeof attributeValue === 'object' && !(attributeValue instanceof Array)) {
+    if (attributeValue && typeof attributeValue === "object" && !(attributeValue instanceof Array)) {
       bind_subjects_to_data(viewNode, attributeValue, data);
     }
   }
@@ -794,9 +794,9 @@ export function activate_property_for_node(viewNode, propertyKey, scopeProperty,
    *
    * @type {BlueprintProperty}
    */
-  const property = NODE_BLUEPRINT_PROPERTY_MAP[propertyKey] || { type: 'attr' };
+  const property = NODE_BLUEPRINT_PROPERTY_MAP[propertyKey] || { type: "attr" };
   property.key = property.key || propertyKey;
-  if (typeof property.beforeActivate !== 'undefined') {
+  if (typeof property.beforeActivate !== "undefined") {
     property.beforeActivate(viewNode, scopeProperty, propertyKey, expression);
   }
 
@@ -813,12 +813,12 @@ export function activate_property_for_node(viewNode, propertyKey, scopeProperty,
  */
 export function get_property_setter_for_node(blueprintProperty, viewNode, scopeProperty, expression) {
   // if viewNode is virtual, then the expression should be ignored
-  if (blueprintProperty.type !== 'reactive' && viewNode.virtual) {
+  if (blueprintProperty.type !== "reactive" && viewNode.virtual) {
     return EMPTY_CALL;
   }
   // This is the lowest level where the developer can modify the property setter behavior
   // By defining 'createSetter' for the property you can implement your custom functionality for setter
-  if (typeof blueprintProperty.getSetter !== 'undefined') {
+  if (typeof blueprintProperty.getSetter !== "undefined") {
     return blueprintProperty.getSetter(viewNode, blueprintProperty, blueprintProperty, expression);
   }
 
@@ -832,12 +832,12 @@ export function get_property_setter_for_node(blueprintProperty, viewNode, scopeP
  * @param {*} value
  */
 export function set_property_for_node(viewNode, propertyKey, value) {
-  const bpKey = propertyKey + '_' + viewNode.node.nodeType;
+  const bpKey = propertyKey + "_" + viewNode.node.nodeType;
   let property = NODE_BLUEPRINT_PROPERTY_MAP[bpKey] || NODE_BLUEPRINT_PROPERTY_MAP[propertyKey];
   if (!property) {
-    property = { type: 'prop' };
-    if (!(propertyKey in viewNode.node) && 'setAttribute' in viewNode.node) {
-      property = { type: 'attr' };
+    property = { type: "prop" };
+    if (!(propertyKey in viewNode.node) && "setAttribute" in viewNode.node) {
+      property = { type: "attr" };
     }
 
     NODE_BLUEPRINT_PROPERTY_MAP[bpKey] = property;
@@ -846,14 +846,14 @@ export function set_property_for_node(viewNode, propertyKey, value) {
   property.key = property.key || propertyKey;
 
   switch (property.type) {
-    case 'attr':
-    case 'prop':
-    case 'reactive':
+    case "attr":
+    case "prop":
+    case "reactive":
       get_property_setter_for_node(property, viewNode)(value, null);
       break;
 
-    case 'event':
-      viewNode.node[propertyKey] = function (event) {
+    case "event":
+      viewNode.node[propertyKey] = function(event) {
         value.call(viewNode, event, viewNode.data);
       };
       break;
@@ -877,7 +877,7 @@ function View(scope) {
     _this._components = Object.assign({}, scope.element.view._components);
   } else {
     _this.container = new ViewNode({
-      tag: scope.element
+      tag: scope.element,
     }, null, _this);
 
     _this.container.setInDOM(true);
@@ -888,35 +888,35 @@ function TimelineControl(type) {
   this.type = type;
 }
 
-TimelineControl.prototype.startKeyframe = function (timeline, position) {
+TimelineControl.prototype.startKeyframe = function(timeline, position) {
   if (!timeline) {
-    throw new Error('Argument Missing: view.' + this.type + '.startKeyframe(timeline:string) needs a `timeline`');
+    throw new Error("Argument Missing: view." + this.type + ".startKeyframe(timeline:string) needs a `timeline`");
   }
 
-  position = position || '+=0';
+  position = position || "+=0";
 
   const animations = {
     [this.type]: {
       // keyframe: true,
       to: {
-        data: 'timeline:start',
-        duration: 0.001
+        data: "timeline:start",
+        duration: 0.001,
       },
       timeline,
-      position
-    }
+      position,
+    },
   };
 
   return {
-    tag: 'comment',
-    text: ['', this.type + ':timeline:start', 'position: ' + position, 'timeline: ' + timeline, ''].join('\n'),
-    animations
+    tag: "comment",
+    text: ["", this.type + ":timeline:start", "position: " + position, "timeline: " + timeline, ""].join("\n"),
+    animations,
   };
 };
 
-TimelineControl.prototype.keyframe = function (onComplete, timeline, position) {
+TimelineControl.prototype.keyframe = function(onComplete, timeline, position) {
   if (!timeline) {
-    throw new Error('Argument Missing: view.' + this.type + '.addKeyframe(timeline:string) needs a `timeline`');
+    throw new Error("Argument Missing: view." + this.type + ".addKeyframe(timeline:string) needs a `timeline`");
   }
 
   const animations = {
@@ -924,49 +924,49 @@ TimelineControl.prototype.keyframe = function (onComplete, timeline, position) {
       // keyframe: true,
       to: {
         duration: 0.001,
-        onComplete
+        onComplete,
       },
       timeline,
       position,
-    }
+    },
   };
 
   return {
-    tag: 'comment',
-    text: this.type + ':timeline:keyframe',
-    animations
+    tag: "comment",
+    text: this.type + ":timeline:keyframe",
+    animations,
   };
 };
 
-TimelineControl.prototype.waitKeyframe = function (timeline, position) {
+TimelineControl.prototype.waitKeyframe = function(timeline, position) {
   if (!timeline) {
-    throw new Error('Argument Missing: view.' + this.type + '.addKeyframe(timeline:string) needs a `timeline`');
+    throw new Error("Argument Missing: view." + this.type + ".addKeyframe(timeline:string) needs a `timeline`");
   }
 
   const animations = {
     [this.type]: {
       to: {
-        duration: 0.001
+        duration: 0.001,
       },
       timeline,
       position,
-    }
+    },
   };
 
   return {
-    tag: 'comment',
-    text: this.type + ':timeline:waitKeyframe',
-    animations
+    tag: "comment",
+    text: this.type + ":timeline:waitKeyframe",
+    animations,
   };
 };
 
 View.prototype = {
   _components: {},
-  components: function (map) {
+  components: function(map) {
     for (const key in map) {
       const comp = map[key];
-      if (typeof comp !== 'function') {
-        throw new Error('Component must be type of function: ' + key);
+      if (typeof comp !== "function") {
+        throw new Error("Component must be type of function: " + key);
       }
 
       this._components[key] = comp;
@@ -975,9 +975,9 @@ View.prototype = {
   /**
    *
    */
-  entering: new TimelineControl('enter'),
+  entering: new TimelineControl("enter"),
 
-  leaving: new TimelineControl('leave'),
+  leaving: new TimelineControl("leave"),
 
   /**
    *
@@ -986,13 +986,13 @@ View.prototype = {
    * @param {Scope|Object} scopeData
    * @returns {*}
    */
-  getComponent: function (key, blueprint, scopeData) {
+  getComponent: function(key, blueprint, scopeData) {
     let componentScope = scopeData;
     let componentBlueprint = blueprint;
     if (key) {
       if (key in this._components) {
-        if (blueprint.props && typeof blueprint.props !== 'object') {
-          throw new Error('The `props` must be a literal object.');
+        if (blueprint.props && typeof blueprint.props !== "object") {
+          throw new Error("The `props` must be a literal object.");
         }
 
         componentScope = create_child_scope(scopeData);
@@ -1001,16 +1001,16 @@ View.prototype = {
         bind_subjects_to_data(null, componentScope, scopeData);
         componentBlueprint = this._components[key].call(null, componentScope, blueprint, this);
         if (blueprint instanceof Array) {
-          throw new Error('A component\'s blueprint can NOT be an array. A component must have only one root node.');
+          throw new Error("A component's blueprint can NOT be an array. A component must have only one root node.");
         }
       } else if (VALID_TAG_NAMES.indexOf(key) === -1) {
-        console.warn('Invalid component/tag: ' + key);
+        console.warn("Invalid component/tag: " + key);
       }
     }
 
     return {
       blueprint: Object.assign(blueprint, componentBlueprint),
-      scopeData: componentScope
+      scopeData: componentScope,
     };
   },
 
@@ -1019,11 +1019,11 @@ View.prototype = {
    * @param {{enter?: AnimationConfig, leave?:AnimationConfig}} animations
    * @returns Blueprint
    */
-  addTimeline: function (animations) {
+  addTimeline: function(animations) {
     return {
-      tag: 'comment',
-      text: 'timeline',
-      animations
+      tag: "comment",
+      text: "timeline",
+      animations,
     };
   },
 
@@ -1032,7 +1032,7 @@ View.prototype = {
    * @param {Blueprint|Blueprint[]} blueprint
    * @return {ViewNode|Array<ViewNode>}
    */
-  blueprint: function (blueprint) {
+  blueprint: function(blueprint) {
     const _this = this;
     return this.createNode(blueprint, _this.scope, _this.container, null);
   },
@@ -1040,10 +1040,10 @@ View.prototype = {
    *
    * @param {boolean} [hasAnimation]
    */
-  clean: function (hasAnimation) {
+  clean: function(hasAnimation) {
     this.container.clean(hasAnimation);
   },
-  dispatchEvent: function (event) {
+  dispatchEvent: function(event) {
     this.container.dispatchEvent(event);
   },
   /**
@@ -1054,24 +1054,24 @@ View.prototype = {
    * @param {Node|Element|null} position
    * @return {ViewNode|Array<ViewNode>}
    */
-  createNode: function (blueprint, scopeData, parent, position) {
+  createNode: function(blueprint, scopeData, parent, position) {
     const _this = this;
     let i = 0, len = 0;
-    if (typeof blueprint === 'string') {
-      const content = document.createElement('div');
+    if (typeof blueprint === "string") {
+      const content = document.createElement("div");
       content.innerHTML = blueprint;
       const nodes = Array.prototype.slice.call(content.childNodes);
-      nodes.forEach(function (node) {
+      nodes.forEach(function(node) {
         // parent.node.appendChild(node);
         const viewNode = new ViewNode({ tag: node }, parent, _this);
         parent.registerChild(viewNode, position);
         node.parentNode.removeChild(node);
-        set_property_for_node(viewNode, 'animations', {});
+        set_property_for_node(viewNode, "animations", {});
         viewNode.setInDOM(true);
       });
 
       return nodes;
-    } else if (typeof blueprint === 'function') {
+    } else if (typeof blueprint === "function") {
       return blueprint.call(_this);
     } else if (blueprint instanceof Array) {
       const result = [];
@@ -1105,7 +1105,7 @@ View.prototype = {
       // Value assignment stage
       for (i = 0, len = needInitKeys.length; i < len; i++) {
         propertyKey = needInitKeys[i];
-        if (propertyKey === 'children') continue;
+        if (propertyKey === "children") continue;
 
         propertyValue = _blueprint[propertyKey];
         const bindings = get_bindings(propertyValue);
@@ -1125,15 +1125,15 @@ View.prototype = {
 
       return viewNode;
     } else {
-      throw Error('blueprint should NOT be null');
+      throw Error("blueprint should NOT be null");
     }
   },
 
   loadStyle(path) {
-    if (path.indexOf('./') === 0) {
-      path = path.replace('./', this.scope.uri.path);
+    if (path.indexOf("./") === 0) {
+      path = path.replace("./", this.scope.uri.path);
     }
-  }
+  },
 };
 
 export default View;

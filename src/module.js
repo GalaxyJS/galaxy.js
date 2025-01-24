@@ -13,16 +13,14 @@ class Module {
    */
   constructor(module, scope) {
     this.id = module.id;
-    this.systemId = module.systemId;
+    // this.systemId = module.systemId;
     this.source = typeof module.source === 'function' ? module.source : null;
     this.path = module.path || null;
-    this.importId = module.importId || module.path;
     this.scope = scope;
   }
 
   init() {
     Reflect.deleteProperty(this, 'source');
-    Reflect.deleteProperty(this, 'addOnProviders');
     this.scope.trigger('module.init');
   }
 

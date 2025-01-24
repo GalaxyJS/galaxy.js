@@ -48,7 +48,7 @@
     return {
       imports: [],
       source: async function (Scope) {
-        const ids = getHostId(Scope.systemId);
+        const ids = getHostId(Scope.moduleId);
         const cssRules = rulesForCssText(content);
         const hostSuffix = '[' + ids.host + ']';
         // const contentSuffix = '[' + ids.content + ']';
@@ -76,7 +76,7 @@
           _temp: true,
           tag: 'style',
           type: 'text/css',
-          id: Scope.systemId,
+          id: Scope.moduleId,
           text: parsedCSSText,
           _create() {
             const parent = this.parent;

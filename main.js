@@ -3,14 +3,13 @@
  * @typedef {Object} ModuleMetaData
  * @property {Function} [constructor]
  * @property {Function|string} [source]
- * @property {string} [id]
- * @property {string} [systemId]
+ * @property {string} id
  * @property {string} [path]
  * @property {Scope} [parentScope]
  * @property {Node} [element]
  */
 
-import { create_module, execute_compiled_module } from "./src/utils.js";
+import { create_module, execute_compiled_module, load_module } from "./src/utils.js";
 import { setupTimeline } from "./src/properties/animations.property.js";
 import Scope from "./src/scope.js";
 import Router from "./src/router.js";
@@ -35,7 +34,7 @@ Array.prototype.unique = function () {
  */
 const Galaxy = {
   moduleContents: {},
-  addOnProviders: [],
+  // addOnProviders: [],
   rootElement: null,
   bootModule: null,
   /**
@@ -68,78 +67,6 @@ const Galaxy = {
 
     return result;
   },
-
-  /**
-   *
-   * @param {ModuleMetaData} moduleMeta
-   * @return {Promise<any>}
-   */
-  load: function (moduleMeta) {
-    if (!moduleMeta) {
-      throw new Error("Module meta data or constructor is missing");
-    }
-
-    const _this = this;
-    return new Promise(function (resolve, reject) {
-      if (
-        moduleMeta.hasOwnProperty("constructor") &&
-        typeof moduleMeta.constructor === "function"
-      ) {
-        moduleMeta.path = moduleMeta.id =
-          "internal/" +
-          new Date().valueOf() +
-          "-" +
-          Math.round(performance.now());
-        moduleMeta.systemId = moduleMeta.parentScope
-          ? moduleMeta.parentScope.systemId + "/" + moduleMeta.id
-          : moduleMeta.id;
-        moduleMeta.source = moduleMeta.constructor;
-
-        return execute_compiled_module(create_module(_this, moduleMeta)).then(
-          resolve,
-        );
-      }
-
-      moduleMeta.path =
-        moduleMeta.path.indexOf("/") === 0
-          ? moduleMeta.path.substring(1)
-          : moduleMeta.path;
-      if (!moduleMeta.id) {
-        moduleMeta.id = "@" + moduleMeta.path;
-      }
-      moduleMeta.systemId = moduleMeta.parentScope
-        ? moduleMeta.parentScope.systemId + "/" + moduleMeta.id
-        : moduleMeta.id;
-
-      let url =
-        moduleMeta.path; /*+ '?' + _this.convertToURIString(module.params || {})*/
-      // contentFetcher makes sure that any module gets loaded from network only once
-      let contentFetcher = _this.moduleContents[url];
-      if (!contentFetcher) {
-        _this.moduleContents[url] = contentFetcher = fetch(url)
-          .then((response) => {
-            if (!response.ok) {
-              console.error(response.statusText, url);
-              return reject(response.statusText);
-            }
-
-            return response;
-          })
-          .catch(reject);
-      }
-
-      contentFetcher = contentFetcher.then((response) => {
-        return response.clone().text();
-      });
-
-      contentFetcher
-        .then((text) => {
-          return execute_compiled_module(create_module(_this, moduleMeta));
-        })
-        .then(resolve)
-        .catch(reject);
-    });
-  },
 };
 
 /**
@@ -157,7 +84,7 @@ function boot(bootModule) {
   }
 
   return new Promise(function (resolve, reject) {
-    Galaxy.load(bootModule)
+    load_module(bootModule)
       .then(function (module) {
         // Replace galaxy temporary bootModule with user specified bootModule
         Galaxy.bootModule = module;
